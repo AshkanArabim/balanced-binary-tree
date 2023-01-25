@@ -1,18 +1,20 @@
 // quite an interesting file name
 
-export default function nodeFactory(data) {
-  let leftChild, rightChild;
-  const getData = () => {
-    return this.data();
+export default function nodeFactory(value) {
+  let leftChild,
+    rightChild = null;
+
+  const getValue = () => {
+    return this.Value();
   };
-  const setData = (newVal) => {
-    this.data = newVal;
+  const setValue = (newVal) => {
+    value = newVal;
   };
   const getLeftChild = () => {
-    return this.leftChild;
+    return leftChild;
   };
   const getRightChild = () => {
-    return this.rightChild;
+    return rightChild;
   };
   const setLeftChild = (child) => {
     this.leftChild = child;
@@ -22,8 +24,8 @@ export default function nodeFactory(data) {
   };
 
   return {
-    getData,
-    setData,
+    getValue,
+    setValue,
     getLeftChild,
     getRightChild,
     setLeftChild,
