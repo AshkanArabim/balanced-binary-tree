@@ -69,13 +69,22 @@ export default function treeFactory(arr) {
 
   const remove = (val) => {
     // find the value node --> func
+    const node = findNode(root, val);
     // find the node that is just bigger --> func
     // replace the node (just change the connectors)
   };
 
-  const findNode = () => {
-    // if current equal --> return node
-    // if not, see if bigger or smaller, recursive call
+  // returns node with the same value as val
+  const findNode = (initNode, val) => {
+    if (initNode.getVal() === val) {
+      return initNode;
+    } else {
+      if (val > initNode.getLeftChild().getVal()) {
+        return findNode(initNode.getRightChild());
+      } else {
+        return findNode(initNode.getLeftChild());
+      }
+    }
   };
 
   const valExists = (val) => {
