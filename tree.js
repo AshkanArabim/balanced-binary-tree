@@ -68,22 +68,88 @@ export default function treeFactory(arr) {
   };
 
   const remove = (val) => {
-    // find the value node --> func
-    const node = findNode(root, val);
-    // find the node that is just bigger --> func
-    // replace the node (just change the connectors)
+    // check if value exists in tree
+    if (!valExists) {
+      console.log("value doesn't exist!!");
+      return;
+    }
+
+    const parent = findNodeParent(root, val);
+    const node = findNode(parent, val);
+    const lc = node.getLeftChild();
+    const rc = node.getRightChild();
+    const nodeIsLeftChild = parent.getLeftChild().getVal() === val;
+
+    // returns the only child of node --> used in case 3
+    function heir() {
+      if (lc.getVal() !== null) return lc;
+      else return rc;
+    }
+
+    if (![lc, rc].includes(null)) {
+      // case 1: two children
+
+      const justBiggerVal = smallestDescendent(node.getRightChild()).getVal();
+      node.setVal(justBiggerVal);
+      remove(justBiggerVal);
+    } else if (lc == null && rc == null) {
+      // case 2: no children
+      // if node is left child, remove paren't left child. if not, remove parent's right child
+
+      if (nodeIsLeftChild) {
+        parent.setLeftChild(null);
+      } else {
+        parent.setRightChild(null);
+      }
+    } else {
+      // case 3 one child only
+
+      if (nodeIsLeftChild) {
+        parent.setLeftChild(heir());
+      } else {
+        parent.setRightChild(heir());
+      }
+    }
+  };
+
+  // return the parent of node with given value
+  const findNodeParent = (initNode, val) => {
+    // if either child matches the value
+    const lc = initNode.getLeftChild();
+    const rc = initNode.getRightChild();
+    const lcVal = lc.getVal();
+    const rcVal = rc.getVal();
+    if ([lcVal, rcVal].includes(val)) {
+      return initNode;
+    } else {
+      if (val > lcVal) {
+        return findNode(rc);
+      } else {
+        return findNode(lc);
+      }
+    }
   };
 
   // returns node with the same value as val
   const findNode = (initNode, val) => {
+    const lc = initNode.getLeftChild();
+    const rc = initNode.getRightChild();
     if (initNode.getVal() === val) {
       return initNode;
     } else {
-      if (val > initNode.getLeftChild().getVal()) {
-        return findNode(initNode.getRightChild());
+      if (val > lc.getVal()) {
+        return findNode(rc, val);
       } else {
-        return findNode(initNode.getLeftChild());
+        return findNode(lc, val);
       }
+    }
+  };
+
+  const smallestDescendent = (initNode) => {
+    if (initNode.getLeftChild() === null) {
+      return initNode;
+    } else {
+      return initNode.getLeftChild();
     }
   };
 
