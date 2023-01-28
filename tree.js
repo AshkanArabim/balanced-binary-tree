@@ -221,5 +221,22 @@ export default function treeFactory(arr) {
     }
   };
 
-  return {};
+  const height = () => {};
+
+  const depth = () => {};
+
+  const isBalanced = () => {};
+
+  const rebalance = () => {};
+
+  return {
+    prettyPrint,
+    insert,
+    remove,
+    findNode,
+    levelOrder,
+    inorder,
+    preorder,
+    postOrder,
+  };
 }
