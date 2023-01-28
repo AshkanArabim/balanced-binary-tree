@@ -20,9 +20,7 @@ export default function treeFactory(arr) {
       root.setLeftChild(buildTree(arr[(0, mid)]));
 
       // set right node
-      root.setRightChild(
-        buildTree(arr[(mid + 1, len)])
-      );
+      root.setRightChild(buildTree(arr[(mid + 1, len)]));
 
       // return root node
       return root;
@@ -31,11 +29,7 @@ export default function treeFactory(arr) {
 
   // visualize the tree
   // this function provided by the Odin Project
-  const prettyPrint = (
-    node,
-    prefix = "",
-    isLeft = true
-  ) => {
+  const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node.right !== null) {
       prettyPrint(
         node.right,
@@ -43,11 +37,7 @@ export default function treeFactory(arr) {
         false
       );
     }
-    console.log(
-      `${prefix}${isLeft ? "└── " : "┌── "}${
-        node.data
-      }`
-    );
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
     if (node.left !== null) {
       prettyPrint(
         node.left,
@@ -96,8 +86,7 @@ export default function treeFactory(arr) {
     const node = findNode(parent, val);
     const lc = node.getLeftChild();
     const rc = node.getRightChild();
-    const nodeIsLeftChild =
-      parent.getLeftChild().getVal() === val;
+    const nodeIsLeftChild = parent.getLeftChild().getVal() === val;
 
     // returns the only child of node --> used in case 3
     function heir() {
@@ -190,15 +179,11 @@ export default function treeFactory(arr) {
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(
-        preorder(node.getLeftChild())
-      );
+      valArray.concat(preorder(node.getLeftChild()));
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(
-        preorder(Node.getRightChild())
-      );
+      valArray.concat(preorder(Node.getRightChild()));
     }
     return valArray;
   };
@@ -207,17 +192,13 @@ export default function treeFactory(arr) {
     let valArray = [];
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(
-        preorder(node.getLeftChild())
-      );
+      valArray.concat(preorder(node.getLeftChild()));
     }
     // add root value
     valArray.push(node.getVal());
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(
-        preorder(Node.getRightChild())
-      );
+      valArray.concat(preorder(Node.getRightChild()));
     }
     return valArray;
   };
@@ -227,15 +208,11 @@ export default function treeFactory(arr) {
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(
-        preorder(node.getLeftChild())
-      );
+      valArray.concat(preorder(node.getLeftChild()));
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(
-        preorder(Node.getRightChild())
-      );
+      valArray.concat(preorder(Node.getRightChild()));
     }
     // add root value
     return valArray;
@@ -254,6 +231,7 @@ export default function treeFactory(arr) {
     }
   };
 
+  // returns the longest chain of nodes from current node until a leaf node
   const height = (node = root) => {
     if (node === null) {
       return 0;
@@ -265,8 +243,25 @@ export default function treeFactory(arr) {
     }
   };
 
-  const depth = (node) => {
-    
+  // returns the length of the chain from root node to current node
+  const depth = (targetNode, currentNode = root, count = 0) => {
+    const tnVal = targetNode.getVAl();
+    const cnVal = currentNode.getVal();
+
+    // increment count with each call
+    count++;
+
+    // if node fount, return the count.
+    if (tnVal === cnVal) {
+      return count;
+    } else {
+      // decide whether to go to the left child or right child
+      const next =
+        tnVal < cnVal
+          ? currentNode.getLeftChild()
+          : currentNode.getRightChild();
+      return depth(targetNode, next, count);
+    }
   };
 
   const isBalanced = () => {};
