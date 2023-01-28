@@ -208,5 +208,18 @@ export default function treeFactory(arr) {
     return valArray;
   };
 
+  const levelOrder = (callback = undefined) => {
+    // declare a queue, containing the root node
+    let queue = [root];
+    for (let i = 0; i < queue.length; i++) {
+      // add children to queue
+      queue.push(queue[i].getLeftChild());
+      queue.push(queue[i].getRightChild());
+    }
+    if (callback !== undefined) {
+      callback(...queue);
+    }
+  };
+
   return {};
 }
