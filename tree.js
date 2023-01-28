@@ -20,7 +20,9 @@ export default function treeFactory(arr) {
       root.setLeftChild(buildTree(arr[(0, mid)]));
 
       // set right node
-      root.setRightChild(buildTree(arr[(mid + 1, len)]));
+      root.setRightChild(
+        buildTree(arr[(mid + 1, len)])
+      );
 
       // return root node
       return root;
@@ -29,13 +31,29 @@ export default function treeFactory(arr) {
 
   // visualize the tree
   // this function provided by the Odin Project
-  const prettyPrint = (node, prefix = "", isLeft = true) => {
+  const prettyPrint = (
+    node,
+    prefix = "",
+    isLeft = true
+  ) => {
     if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+      prettyPrint(
+        node.right,
+        `${prefix}${isLeft ? "│   " : "    "}`,
+        false
+      );
     }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    console.log(
+      `${prefix}${isLeft ? "└── " : "┌── "}${
+        node.data
+      }`
+    );
     if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+      prettyPrint(
+        node.left,
+        `${prefix}${isLeft ? "    " : "│   "}`,
+        true
+      );
     }
   };
 
@@ -78,7 +96,8 @@ export default function treeFactory(arr) {
     const node = findNode(parent, val);
     const lc = node.getLeftChild();
     const rc = node.getRightChild();
-    const nodeIsLeftChild = parent.getLeftChild().getVal() === val;
+    const nodeIsLeftChild =
+      parent.getLeftChild().getVal() === val;
 
     // returns the only child of node --> used in case 3
     function heir() {
@@ -89,7 +108,9 @@ export default function treeFactory(arr) {
     if (![lc, rc].includes(null)) {
       // case 1: two children
 
-      const justBiggerVal = smallestDescendent(node.getRightChild()).getVal();
+      const justBiggerVal = smallestDescendent(
+        node.getRightChild()
+      ).getVal();
       node.setVal(justBiggerVal);
       remove(justBiggerVal);
     } else if (lc == null && rc == null) {
@@ -169,11 +190,15 @@ export default function treeFactory(arr) {
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(
+        preorder(node.getLeftChild())
+      );
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(
+        preorder(Node.getRightChild())
+      );
     }
     return valArray;
   };
@@ -182,13 +207,17 @@ export default function treeFactory(arr) {
     let valArray = [];
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(
+        preorder(node.getLeftChild())
+      );
     }
     // add root value
     valArray.push(node.getVal());
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(
+        preorder(Node.getRightChild())
+      );
     }
     return valArray;
   };
@@ -198,11 +227,15 @@ export default function treeFactory(arr) {
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(
+        preorder(node.getLeftChild())
+      );
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(
+        preorder(Node.getRightChild())
+      );
     }
     // add root value
     return valArray;
@@ -221,9 +254,20 @@ export default function treeFactory(arr) {
     }
   };
 
-  const height = () => {};
+  const height = (node = root) => {
+    if (node === null) {
+      return 0;
+    } else {
+      return Math.max(
+        height(node.getLeftChild()) + 1,
+        height(node.getRightChild() + 1)
+      );
+    }
+  };
 
-  const depth = () => {};
+  const depth = (node) => {
+    
+  };
 
   const isBalanced = () => {};
 
