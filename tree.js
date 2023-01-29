@@ -31,19 +31,11 @@ export default function treeFactory(arr) {
   // this function provided by the Odin Project
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node.right !== null) {
-      prettyPrint(
-        node.right,
-        `${prefix}${isLeft ? "│   " : "    "}`,
-        false
-      );
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
     }
     console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
     if (node.left !== null) {
-      prettyPrint(
-        node.left,
-        `${prefix}${isLeft ? "    " : "│   "}`,
-        true
-      );
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
 
@@ -97,9 +89,7 @@ export default function treeFactory(arr) {
     if (![lc, rc].includes(null)) {
       // case 1: two children
 
-      const justBiggerVal = smallestDescendent(
-        node.getRightChild()
-      ).getVal();
+      const justBiggerVal = smallestDescendent(node.getRightChild()).getVal();
       node.setVal(justBiggerVal);
       remove(justBiggerVal);
     } else if (lc == null && rc == null) {
@@ -236,10 +226,7 @@ export default function treeFactory(arr) {
     if (node === null) {
       return 0;
     } else {
-      return Math.max(
-        height(node.getLeftChild()) + 1,
-        height(node.getRightChild() + 1)
-      );
+      return Math.max(height(node.getLeftChild()) + 1, height(node.getRightChild() + 1));
     }
   };
 
@@ -256,15 +243,34 @@ export default function treeFactory(arr) {
       return count;
     } else {
       // decide whether to go to the left child or right child
-      const next =
-        tnVal < cnVal
-          ? currentNode.getLeftChild()
-          : currentNode.getRightChild();
+      const next = tnVal < cnVal ? currentNode.getLeftChild() : currentNode.getRightChild();
       return depth(targetNode, next, count);
     }
   };
 
-  const isBalanced = () => {};
+  const isBalanced = (node) => {
+    // base case:
+    // if end of line, return true
+    if (node === null) {
+      return true;
+    }
+
+    // recursive case
+    const lc = node.getLeftChild();
+    const rc = node.getRightChild();
+
+    // if either child is not balanced, return false
+    if (!(isBalanced(lc) && isBalanced(rc))) {
+      return false;
+    }
+
+    // if the hight difference is more than one, return false
+    if (Math.abs(height(lc) - height(rc)) > 1) {
+      return false;
+    }
+
+    return true;
+  };
 
   const rebalance = () => {};
 
