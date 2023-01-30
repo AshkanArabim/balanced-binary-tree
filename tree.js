@@ -155,7 +155,7 @@ export default function treeFactory(arr) {
 
   const valExists = (val) => {
     // get ordered array
-    const ordered = preorder(root);
+    const ordered = preOrder(root);
     // look in ordered array, if found, return true;
     for (x of ordered) {
       if (val === x) return true;
@@ -163,32 +163,32 @@ export default function treeFactory(arr) {
     return false;
   };
 
-  const preorder = (node) => {
+  const preOrder = (node) => {
     let valArray = [];
     // add root value
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(preOrder(node.getLeftChild()));
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(preOrder(Node.getRightChild()));
     }
     return valArray;
   };
 
-  const inorder = (node) => {
+  const inOrder = (node) => {
     let valArray = [];
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(preOrder(node.getLeftChild()));
     }
     // add root value
     valArray.push(node.getVal());
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(preOrder(Node.getRightChild()));
     }
     return valArray;
   };
@@ -198,11 +198,11 @@ export default function treeFactory(arr) {
     valArray.push(node.getVal());
     // add left child valArray
     if (node.getLeftChild()) {
-      valArray.concat(preorder(node.getLeftChild()));
+      valArray.concat(preOrder(node.getLeftChild()));
     }
     // add right child valArray
     if (node.getRightChild()) {
-      valArray.concat(preorder(Node.getRightChild()));
+      valArray.concat(preOrder(Node.getRightChild()));
     }
     // add root value
     return valArray;
@@ -272,16 +272,23 @@ export default function treeFactory(arr) {
     return true;
   };
 
-  const rebalance = () => {};
+  const rebalance = () => {
+    levelOrder(buildTree);
+  };
 
   return {
+    buildTree,
     prettyPrint,
     insert,
     remove,
     findNode,
     levelOrder,
-    inorder,
-    preorder,
+    inOrder,
+    preOrder,
     postOrder,
+    height,
+    depth,
+    isBalanced,
+    rebalance,
   };
 }
