@@ -163,59 +163,53 @@ export default function treeFactory(arr) {
     return false;
   };
 
-  const preOrder = (node) => {
-    let valArray = [];
-    // add root value
-    valArray.push(node.getVal());
-    // add left child valArray
-    if (node.getLeftChild()) {
-      valArray.concat(preOrder(node.getLeftChild()));
-    }
-    // add right child valArray
-    if (node.getRightChild()) {
-      valArray.concat(preOrder(Node.getRightChild()));
-    }
-    return valArray;
-  };
+  const order = (type, node = root, callback = undefined) => {
+    // some utils
+    let queue = [];
 
-  const inOrder = (node) => {
-    let valArray = [];
-    // add left child valArray
-    if (node.getLeftChild()) {
-      valArray.concat(preOrder(node.getLeftChild()));
-    }
-    // add root value
-    valArray.push(node.getVal());
-    // add right child valArray
-    if (node.getRightChild()) {
-      valArray.concat(preOrder(Node.getRightChild()));
-    }
-    return valArray;
-  };
+    if (type === "level") {
+      queue.push(node);
+      for (let i = 0; i < queue.length; i++) {
+        // add children to queue
+        queue.push(queue[i].getLeftChild());
+        queue.push(queue[i].getRightChild());
+      }
+    } else {
+      const lc = node.getLeftChild();
+      const rc = node.getRightChild();
+      function addSelf() {
+        queue.push(node);
+      }
+      function addLeftChild() {
+        if (lc !== null) {
+          queue.concat(order(type, lc));
+        }
+      }
+      function addRightChild() {
+        if (rc !== null) {
+          queue.concat(order(type, rc));
+        }
+      }
 
-  const postOrder = (node) => {
-    let valArray = [];
-    valArray.push(node.getVal());
-    // add left child valArray
-    if (node.getLeftChild()) {
-      valArray.concat(preOrder(node.getLeftChild()));
+      switch (type) {
+        case "pre": {
+          addSelf();
+          addLeftChild();
+          addRightChild();
+        }
+        case "in": {
+          addLeftChild();
+          addSelf();
+          addRightChild;
+        }
+        case "post": {
+          addLeftChild();
+          addRightChild();
+          addSelf();
+        }
+      }
     }
-    // add right child valArray
-    if (node.getRightChild()) {
-      valArray.concat(preOrder(Node.getRightChild()));
-    }
-    // add root value
-    return valArray;
-  };
 
-  const levelOrder = (callback = undefined) => {
-    // declare a queue, containing the root node
-    let queue = [root];
-    for (let i = 0; i < queue.length; i++) {
-      // add children to queue
-      queue.push(queue[i].getLeftChild());
-      queue.push(queue[i].getRightChild());
-    }
     if (callback !== undefined) {
       callback(...queue);
     }
