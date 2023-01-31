@@ -1,39 +1,44 @@
 import nodeFactory from "./node.mjs";
 
-export default function treeFactory(arr) {
+export default function treeFactory(initialArray) {
   // takes array, creates balanced tree recursively
   const buildTree = (arr) => {
-    if (arr.length === 1) {
+    const len = arr.length;
+    console.log(arr); // DEBUG
+    if (arr.length === 0) {
+      return null;
+    } else if (arr.length === 1) {
       // return value to be assigned to parent
-      return arr[0];
+      return nodeFactory(arr[0]);
     } else {
-      const len = arr.length;
       const mid = len / 2;
-      const root = nodeFactory();
+      const localRoot = nodeFactory();
 
-      // set root value to middle int
-      root.setData(arr[mid]);
+      // set localRoot value to middle int
+      localRoot.setVal(arr[mid]);
 
       // set left node
-      root.setLeftChild(buildTree(arr[(0, mid)]));
+      localRoot.setLeftChild(buildTree(arr.slice(0, mid)));
 
       // set right node
-      root.setRightChild(buildTree(arr[(mid + 1, len)]));
+      localRoot.setRightChild(buildTree(arr.slice(mid + 1, len)));
 
-      // return root node
-      return root;
+      // return localRoot node
+      return localRoot;
     }
   };
 
+  let root = buildTree(initialArray);
+
   // visualize the tree
   // this function provided by the Odin Project
-  const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  const prettyPrint = (node = root, prefix = "", isLeft = true) => {
+    if (node.getRightChild() !== null) {
+      prettyPrint(node.getRightChild(), `${prefix}${isLeft ? "│   " : "    "}`, false);
     }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.getVal()}`);
+    if (node.getLeftChild() !== null) {
+      prettyPrint(node.getLeftChild(), `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
 
@@ -267,8 +272,6 @@ export default function treeFactory(arr) {
   const rebalance = () => {
     levelOrder(buildTree);
   };
-
-  root = buildTree(arr);
 
   return {
     buildTree,

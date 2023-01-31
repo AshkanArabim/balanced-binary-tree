@@ -5,7 +5,7 @@ export default function nodeFactory(val) {
   let rightChild = null;
 
   const getVal = () => {
-    return this.Val();
+    return val;
   };
   const setVal = (newVal) => {
     val = newVal;
@@ -17,10 +17,10 @@ export default function nodeFactory(val) {
     return rightChild;
   };
   const setLeftChild = (child) => {
-    this.leftChild = child;
+    leftChild = child;
   };
   const setRightChild = (child) => {
-    this.rightChild = child;
+    rightChild = child;
   };
 
   return {
