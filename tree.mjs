@@ -1,4 +1,4 @@
-import nodeFactory from "./node";
+import nodeFactory from "./node.mjs";
 
 export default function treeFactory(arr) {
   root = buildTree(arr);
@@ -48,19 +48,19 @@ export default function treeFactory(arr) {
     let temp = root;
     while (true) {
       let tempVal = temp.getVal();
-      let left = temp.getLeftChild();
-      let right = temp.getRightChild();
+      let lc = temp.getLeftChild();
+      let rc = temp.getRightChild();
 
       if (tempVal === val) {
       }
       // check if this is a leaf node
-      if (left === null && right == null) {
+      if (lc === null && rc == null) {
         break;
       }
       if (val > tempVal) {
-        temp = right;
+        temp = rc;
       } else {
-        temp = left;
+        temp = lc;
       }
     }
 
@@ -166,9 +166,12 @@ export default function treeFactory(arr) {
   const order = (type, node = root, callback = undefined) => {
     // some utils
     let queue = [];
+    function addSelf() {
+      queue.push(node);
+    }
 
     if (type === "level") {
-      queue.push(node);
+      addSelf();
       for (let i = 0; i < queue.length; i++) {
         // add children to queue
         queue.push(queue[i].getLeftChild());
@@ -177,9 +180,6 @@ export default function treeFactory(arr) {
     } else {
       const lc = node.getLeftChild();
       const rc = node.getRightChild();
-      function addSelf() {
-        queue.push(node);
-      }
       function addLeftChild() {
         if (lc !== null) {
           queue.concat(order(type, lc));
@@ -276,10 +276,7 @@ export default function treeFactory(arr) {
     insert,
     remove,
     findNode,
-    levelOrder,
-    inOrder,
-    preOrder,
-    postOrder,
+    order,
     height,
     depth,
     isBalanced,
