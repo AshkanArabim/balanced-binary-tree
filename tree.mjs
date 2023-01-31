@@ -1,6 +1,8 @@
 import nodeFactory from "./node.mjs";
 
 export default function treeFactory(initialArray) {
+  initialArray.sort();
+
   // takes array, creates balanced tree recursively
   const buildTree = (arr) => {
     const len = arr.length;
@@ -11,11 +13,11 @@ export default function treeFactory(initialArray) {
       // return value to be assigned to parent
       return nodeFactory(arr[0]);
     } else {
-      const mid = len / 2;
+      const mid = Math.floor(len / 2);
       const localRoot = nodeFactory();
 
       // set localRoot value to middle int
-      localRoot.setVal(arr[mid]);
+      localRoot.setVal(arr[mid]); // not working...
 
       // set left node
       localRoot.setLeftChild(buildTree(arr.slice(0, mid)));
@@ -274,7 +276,6 @@ export default function treeFactory(initialArray) {
   };
 
   return {
-    buildTree,
     prettyPrint,
     insert,
     remove,
