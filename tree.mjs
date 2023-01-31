@@ -1,8 +1,6 @@
 import nodeFactory from "./node.mjs";
 
 export default function treeFactory(arr) {
-  root = buildTree(arr);
-
   // takes array, creates balanced tree recursively
   const buildTree = (arr) => {
     if (arr.length === 1) {
@@ -269,6 +267,8 @@ export default function treeFactory(arr) {
   const rebalance = () => {
     levelOrder(buildTree);
   };
+
+  root = buildTree(arr);
 
   return {
     buildTree,
