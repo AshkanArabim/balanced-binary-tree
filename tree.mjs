@@ -55,21 +55,21 @@ export default function treeFactory(initialArray) {
       let tempVal = temp.getVal();
       let lc = temp.getLeftChild();
       let rc = temp.getRightChild();
+      let valIsBigger = val > tempVal;
+      let next = valIsBigger ? rc : lc;
 
-      if (tempVal === val) {
-      }
-      // check if this is a leaf node
-      if (lc === null && rc == null) {
+      if (next === null) {
+        let newNode = nodeFactory(val);
+        if (valIsBigger) {
+          temp.setRightChild(newNode);
+        } else {
+          temp.setLeftChild(newNode);
+        }
         break;
-      }
-      if (val > tempVal) {
-        temp = rc;
       } else {
-        temp = lc;
+        temp = next;
       }
     }
-
-    temp.setLeftChild(nodeFactory(val));
   };
 
   const remove = (val) => {
@@ -160,9 +160,9 @@ export default function treeFactory(initialArray) {
 
   const valExists = (val) => {
     // get ordered array
-    const ordered = preOrder(root);
+    const ordered = order("pre");
     // look in ordered array, if found, return true;
-    for (x of ordered) {
+    for (let x of ordered) {
       if (val === x) return true;
     }
     return false;
@@ -215,8 +215,10 @@ export default function treeFactory(initialArray) {
       }
     }
 
-    if (callback !== undefined) {
-      callback(...queue);
+    if (callback === undefined) {
+      return queue;
+    } else {
+      return callback(...queue);
     }
   };
 
