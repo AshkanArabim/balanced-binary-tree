@@ -79,8 +79,8 @@ export default function treeFactory(initialArray) {
       return;
     }
 
-    const parent = findNodeParent(root, val);
-    const node = findNode(parent, val);
+    const parent = findNodeParent(val);
+    const node = findNode(val, parent);
     const lc = node.getLeftChild();
     const rc = node.getRightChild();
     const nodeIsLeftChild = parent.getLeftChild().getVal() === val;
@@ -118,7 +118,7 @@ export default function treeFactory(initialArray) {
   };
 
   // return the parent of node with given value
-  const findNodeParent = (initNode, val) => {
+  const findNodeParent = (val, initNode = root) => {
     // if either child matches the value
     const lc = initNode.getLeftChild();
     const rc = initNode.getRightChild();
@@ -128,24 +128,27 @@ export default function treeFactory(initialArray) {
       return initNode;
     } else {
       if (val > lcVal) {
-        return findNode(rc);
+        return findNode(rc.getVal());
       } else {
-        return findNode(lc);
+        return findNode(lc.getVal());
       }
     }
   };
 
   // returns node with the same value as val
-  const findNode = (initNode, val) => {
+  const findNode = (val, initNode = root) => {
     const lc = initNode.getLeftChild();
     const rc = initNode.getRightChild();
-    if (initNode.getVal() === val) {
+    if (initNode === null || initNode.getVal() === val) {
+      // return node if value matches 
+      // or if it's null, meaning that no match was found
       return initNode;
     } else {
-      if (val > lc.getVal()) {
-        return findNode(rc, val);
+      // recursive call into next level if no match
+      if (val > initNode.getVal()) {
+        return findNode(val, rc);
       } else {
-        return findNode(lc, val);
+        return findNode(val, lc);
       }
     }
   };
