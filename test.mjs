@@ -9,9 +9,9 @@ testTree.insert(12)
 testTree.insert(-22)
 testTree.insert(7) // passed
 
-console.log(testTree.findNode(12).getVal())
+console.log(testTree.findNode(7).getVal())
 
-// testTree.remove(7) // leaf node
+testTree.remove(7) // leaf node
 // testTree.remove(70) // on child
 // testTree.remove(8) // two children
 
