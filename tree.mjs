@@ -83,7 +83,14 @@ export default function treeFactory(initialArray) {
     const node = findNode(val, parent);
     const lc = node.getLeftChild();
     const rc = node.getRightChild();
-    const nodeIsLeftChild = parent.getLeftChild().getVal() === val;
+
+    const nodeIsLeftChild = false;
+    const plc = parent.getLeftChild();
+    if (plc !== null) {
+      if (plc.getVal() === val) {
+        nodeIsLeftChild = true;
+      }
+    }
 
     // returns the only child of node --> used in case 3
     function heir() {
