@@ -122,15 +122,31 @@ export default function treeFactory(initialArray) {
     // if either child matches the value
     const lc = initNode.getLeftChild();
     const rc = initNode.getRightChild();
-    const lcVal = lc.getVal();
-    const rcVal = rc.getVal();
-    if ([lcVal, rcVal].includes(val)) {
+
+    // check if each child exists before seeinf if the value matches
+    // left
+    let lcMatch = false;
+    if (lc !== null) {
+      if (lc.getVal() === val) {
+        lcMatch = true;
+      }
+    }
+
+    //right
+    let rcMatch = false;
+    if (rc !== null) {
+      if (rc.getVal() === val) {
+        rcMatch = true;
+      }
+    }
+
+    if (lcMatch || rcMatch) {
       return initNode;
     } else {
-      if (val > lcVal) {
-        return findNode(rc.getVal());
+      if (val > initNode.getVal()) {
+        return findNodeParent(val, rc);
       } else {
-        return findNode(lc.getVal());
+        return findNodeParent(val, lc);
       }
     }
   };
@@ -140,7 +156,7 @@ export default function treeFactory(initialArray) {
     const lc = initNode.getLeftChild();
     const rc = initNode.getRightChild();
     if (initNode === null || initNode.getVal() === val) {
-      // return node if value matches 
+      // return node if value matches
       // or if it's null, meaning that no match was found
       return initNode;
     } else {
