@@ -84,6 +84,7 @@ export default function treeFactory(initialArray) {
     const lc = node.getLeftChild();
     const rc = node.getRightChild();
 
+    // check if node is left or right child
     const nodeIsLeftChild = false;
     const plc = parent.getLeftChild();
     if (plc !== null) {
@@ -102,8 +103,8 @@ export default function treeFactory(initialArray) {
       // case 1: two children
 
       const justBiggerVal = smallestDescendent(node.getRightChild()).getVal();
-      node.setVal(justBiggerVal);
       remove(justBiggerVal);
+      node.setVal(justBiggerVal);
     } else if (lc == null && rc == null) {
       // case 2: no children
       // if node is left child, remove paren't left child. if not, remove parent's right child
@@ -184,12 +185,19 @@ export default function treeFactory(initialArray) {
     }
   };
 
+  const printNodeList = (list) => {
+    for (let i = 0; i < list.length; i++) {
+      console.log("item " + i + ": " + list[i].getVal());
+    }
+  };
+
   const valExists = (val) => {
     // get ordered array
     const ordered = order("pre");
+
     // look in ordered array, if found, return true;
-    for (let x of ordered) {
-      if (val === x) return true;
+    for (let node of ordered) {
+      if (val === node.getVal()) return true;
     }
     return false;
   };
@@ -213,26 +221,30 @@ export default function treeFactory(initialArray) {
       const rc = node.getRightChild();
       function addLeftChild() {
         if (lc !== null) {
-          queue.concat(order(type, lc));
+          queue = queue.concat(order(type, lc));
         }
       }
       function addRightChild() {
         if (rc !== null) {
-          queue.concat(order(type, rc));
+          queue = queue.concat(order(type, rc));
         }
       }
 
       switch (type) {
-        case "pre": {
-          addSelf();
-          addLeftChild();
-          addRightChild();
-        }
-        case "in": {
-          addLeftChild();
-          addSelf();
-          addRightChild;
-        }
+        case "pre":
+          {
+            addSelf();
+            addLeftChild();
+            addRightChild();
+          }
+          break;
+        case "in":
+          {
+            addLeftChild();
+            addSelf();
+            addRightChild;
+          }
+          break;
         case "post": {
           addLeftChild();
           addRightChild();
@@ -313,5 +325,7 @@ export default function treeFactory(initialArray) {
     depth,
     isBalanced,
     rebalance,
+    valExists,
+    printNodeList
   };
 }
