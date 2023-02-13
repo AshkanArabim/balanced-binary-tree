@@ -95,7 +95,7 @@ export default function treeFactory(initialArray) {
 
     // returns the only child of node --> used in case 3
     function heir() {
-      if (lc.getVal() !== null) return lc;
+      if (lc !== null) return lc;
       else return rc;
     }
 
@@ -261,7 +261,12 @@ export default function treeFactory(initialArray) {
     if (callback === undefined) {
       return queue;
     } else {
-      return callback(...queue);
+      // pass each element of queue thorugh the callback before returning the array
+
+      for (x of queue) {
+        x = callback(x);
+      }
+      return queue;
     }
   };
 

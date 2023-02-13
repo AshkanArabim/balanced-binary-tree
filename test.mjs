@@ -11,18 +11,16 @@ testTree.insert(7); // passed
 
 console.log(testTree.findNode(7).getVal());
 
-console.log(testTree.printNodeList(testTree.order('pre'))); //passed
-console.log(testTree.printNodeList(testTree.order('in')));
-console.log(testTree.printNodeList(testTree.order('post')));
-console.log(testTree.printNodeList(testTree.order('level')));
+console.log(testTree.printNodeList(testTree.order("pre"))); //passed
+console.log(testTree.printNodeList(testTree.order("in"))); // passed
+console.log(testTree.printNodeList(testTree.order("post"))); // passed
+console.log(testTree.printNodeList(testTree.order("level"))); // passed
 
-// console.log(testTree.valExists(70)); // broken
-// console.log(testTree.valExists(90));
-
-// testTree.order('pre', (queue) => testTree.printNodeList);
+console.log(`find 70: ${testTree.valExists(70)}`); // passed
+console.log(`find 90: ${testTree.valExists(90)}`); // passed
 
 // testTree.remove(7) // leaf node --> passed
 // testTree.remove(70) // one child --> passed
-// testTree.remove(8) // two children --> broken
+testTree.remove(8) // two children --> broken
 
 testTree.prettyPrint(); //passed
