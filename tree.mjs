@@ -186,9 +186,11 @@ export default function treeFactory(initialArray) {
   };
 
   const printNodeList = (list) => {
+    let output = '';
     for (let i = 0; i < list.length; i++) {
-      console.log("item " + i + ": " + list[i].getVal());
+      output += `${list[i].getVal()}, `;
     }
+    console.log(output);
   };
 
   const valExists = (val) => {
@@ -242,7 +244,7 @@ export default function treeFactory(initialArray) {
           {
             addLeftChild();
             addSelf();
-            addRightChild;
+            addRightChild();
           }
           break;
         case "post": {
