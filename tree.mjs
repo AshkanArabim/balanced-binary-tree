@@ -186,7 +186,7 @@ export default function treeFactory(initialArray) {
   };
 
   const printNodeList = (list) => {
-    let output = '';
+    let output = "";
     for (let i = 0; i < list.length; i++) {
       output += `${list[i].getVal()}, `;
     }
@@ -214,9 +214,12 @@ export default function treeFactory(initialArray) {
     if (type === "level") {
       addSelf();
       for (let i = 0; i < queue.length; i++) {
-        // add children to queue
-        queue.push(queue[i].getLeftChild());
-        queue.push(queue[i].getRightChild());
+        const lc = queue[i].getLeftChild();
+        const rc = queue[i].getRightChild();
+
+        // add children to queue only if they are not null
+        if (lc !== null) queue.push(lc);
+        if (rc !== null) queue.push(rc);
       }
     } else {
       const lc = node.getLeftChild();
@@ -328,6 +331,6 @@ export default function treeFactory(initialArray) {
     isBalanced,
     rebalance,
     valExists,
-    printNodeList
+    printNodeList,
   };
 }
