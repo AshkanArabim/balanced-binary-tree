@@ -16,11 +16,12 @@ console.log(testTree.printNodeList(testTree.order("in"))); // passed
 console.log(testTree.printNodeList(testTree.order("post"))); // passed
 console.log(testTree.printNodeList(testTree.order("level"))); // passed
 
-console.log(`find 70: ${testTree.valExists(70)}`); // passed
-console.log(`find 90: ${testTree.valExists(90)}`); // passed
+testTree.rebalance();
 
-// testTree.remove(7) // leaf node --> passed
-// testTree.remove(70) // one child --> passed
-testTree.remove(8) // two children --> broken
+// testTree.remove(7); // leaf node --> passed
+// testTree.remove(70); // one child --> passed
+// testTree.remove(8); // two children --> passed
+
+console.log(testTree.isBalanced());
 
 testTree.prettyPrint(); //passed

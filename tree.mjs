@@ -4,26 +4,25 @@ export default function treeFactory(initialArray) {
   initialArray.sort();
 
   // takes array, creates balanced tree recursively
-  const buildTree = (arr) => {
-    const len = arr.length;
-    console.log(arr); // DEBUG
-    if (arr.length === 0) {
+  const buildTree = (valueList) => {
+    const len = valueList.length;
+    if (valueList.length === 0) {
       return null;
-    } else if (arr.length === 1) {
+    } else if (valueList.length === 1) {
       // return value to be assigned to parent
-      return nodeFactory(arr[0]);
+      return nodeFactory(valueList[0]);
     } else {
       const mid = Math.floor(len / 2);
       const localRoot = nodeFactory();
 
       // set localRoot value to middle int
-      localRoot.setVal(arr[mid]); // not working...
+      localRoot.setVal(valueList[mid]);
 
       // set left node
-      localRoot.setLeftChild(buildTree(arr.slice(0, mid)));
+      localRoot.setLeftChild(buildTree(valueList.slice(0, mid)));
 
       // set right node
-      localRoot.setRightChild(buildTree(arr.slice(mid + 1, len)));
+      localRoot.setRightChild(buildTree(valueList.slice(mid + 1, len)));
 
       // return localRoot node
       return localRoot;
@@ -261,12 +260,10 @@ export default function treeFactory(initialArray) {
     if (callback === undefined) {
       return queue;
     } else {
-      // pass each element of queue thorugh the callback before returning the array
-
-      for (x of queue) {
-        x = callback(x);
-      }
-      return queue;
+      // convert the nodelist into a value list --> easier to work with in callbacks
+      queue = createValueList(queue);
+      // pass the queue through callback before returning it
+      return callback(queue);
     }
   };
 
@@ -275,14 +272,14 @@ export default function treeFactory(initialArray) {
     if (node === null) {
       return 0;
     } else {
-      return Math.max(height(node.getLeftChild()) + 1, height(node.getRightChild() + 1));
+      return Math.max(height(node.getLeftChild()) + 1, height(node.getRightChild()) + 1);
     }
   };
 
   // returns the length of the chain from root node to current node
   const depth = (targetNode, currentNode = root, count = 0) => {
-    const tnVal = targetNode.getVAl();
-    const cnVal = currentNode.getVal();
+    const tnVal = targetNode.getVal(); // target node value
+    const cnVal = currentNode.getVal(); // current node value
 
     // increment count with each call
     count++;
@@ -297,7 +294,7 @@ export default function treeFactory(initialArray) {
     }
   };
 
-  const isBalanced = (node) => {
+  const isBalanced = (node = root) => {
     // base case:
     // if end of line, return true
     if (node === null) {
@@ -321,8 +318,18 @@ export default function treeFactory(initialArray) {
     return true;
   };
 
+  const createValueList = (nodeList) => {
+    let valList = [];
+
+    for (let nodeIndex in nodeList) {
+      valList[nodeIndex] = nodeList[nodeIndex].getVal();
+    }
+
+    return valList;
+  }
+
   const rebalance = () => {
-    levelOrder(buildTree);
+    root = order("level", undefined, buildTree);
   };
 
   return {
