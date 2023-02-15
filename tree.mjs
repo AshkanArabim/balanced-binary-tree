@@ -1,7 +1,28 @@
 import nodeFactory from "./node.mjs";
 
 export default function treeFactory(initialArray) {
-  initialArray.sort();
+  // removes all duplicates
+  // sorts the array
+  const validateArray = (arr) => {
+    arr.sort((a, b) => {
+      return a - b;
+    });
+    arr = removeDuplicates(arr);
+
+    return arr;
+  };
+
+  const removeDuplicates = (sortedArr) => {
+    let seenElements = [];
+
+    for (let x of sortedArr) {
+      if (!seenElements.includes(x)) {
+        seenElements.push(x);
+      }
+    }
+
+    return seenElements;
+  };
 
   // takes array, creates balanced tree recursively
   const buildTree = (valueList) => {
@@ -28,8 +49,6 @@ export default function treeFactory(initialArray) {
       return localRoot;
     }
   };
-
-  let root = buildTree(initialArray);
 
   // visualize the tree
   // this function provided by the Odin Project
@@ -184,14 +203,6 @@ export default function treeFactory(initialArray) {
     }
   };
 
-  const printNodeList = (list) => {
-    let output = "";
-    for (let i = 0; i < list.length; i++) {
-      output += `${list[i].getVal()}, `;
-    }
-    console.log(output);
-  };
-
   const valExists = (val) => {
     // get ordered array
     const ordered = order("pre");
@@ -263,7 +274,7 @@ export default function treeFactory(initialArray) {
       // convert the nodelist into a value list --> easier to work with in callbacks
       queue = createValueList(queue);
       // pass the queue through callback before returning it
-      return callback(queue);
+      return callback(validateArray(queue));
     }
   };
 
@@ -326,11 +337,13 @@ export default function treeFactory(initialArray) {
     }
 
     return valList;
-  }
+  };
 
   const rebalance = () => {
     root = order("level", undefined, buildTree);
   };
+
+  let root = buildTree(validateArray(initialArray));
 
   return {
     prettyPrint,
@@ -342,7 +355,6 @@ export default function treeFactory(initialArray) {
     depth,
     isBalanced,
     rebalance,
-    valExists,
-    printNodeList,
+    createValueList,
   };
 }

@@ -1,27 +1,61 @@
 import nodeFactory from "./node.mjs";
 import treeFactory from "./tree.mjs";
 
-let arr = [2, 6, 1, 8, 4, 3, 9];
-let testTree = treeFactory(arr); // passed
+function randomIntArray(length = 100, upperBound = 100) {
+  // random number from 0 to 99
+  let randomLength = Math.floor(Math.random() * length);
+  let intArr = [];
 
-testTree.insert(70);
-testTree.insert(12);
-testTree.insert(-22);
-testTree.insert(7); // passed
+  for (let i = 0; i < randomLength; i++) {
+    // random number from 0 to 99
+    let randomInt = Math.floor(Math.random() * upperBound);
+    intArr[i] = randomInt;
+  }
 
-console.log(testTree.findNode(7).getVal());
+  return intArr;
+}
 
-console.log(testTree.printNodeList(testTree.order("pre"))); //passed
-console.log(testTree.printNodeList(testTree.order("in"))); // passed
-console.log(testTree.printNodeList(testTree.order("post"))); // passed
-console.log(testTree.printNodeList(testTree.order("level"))); // passed
+function balanceIfNot(treeRoot) {
+  if (!treeRoot.isBalanced()) {
+    console.log("Not balanced!! Balancing...");
+    treeRoot.rebalance();
+  } else {
+    console.log("tree is balanced.");
+  }
+}
 
-testTree.rebalance();
+function unbalance(treeRoot) {
+  // generate the list
+  let arrToAdd = randomIntArray(300, 500);
 
-// testTree.remove(7); // leaf node --> passed
-// testTree.remove(70); // one child --> passed
-// testTree.remove(8); // two children --> passed
+  // start appending
+  for (let x of arrToAdd) {
+    treeRoot.insert(x);
+  }
+}
 
-console.log(testTree.isBalanced());
+// start of tests
+
+let arr = randomIntArray();
+console.log(arr);
+
+let testTree = treeFactory(arr);
+
+balanceIfNot(testTree);
+
+console.log("Pre order: " + testTree.createValueList(testTree.order("pre"))); //passed
+console.log("In order: " + testTree.createValueList(testTree.order("in"))); // passed
+console.log("Post order: " + testTree.createValueList(testTree.order("post"))); // passed
+console.log("Level order: " + testTree.createValueList(testTree.order("level"))); // passed
+
+balanceIfNot(testTree);
+
+testTree.prettyPrint(); //passed
+
+unbalance(testTree);
+
+testTree.prettyPrint();
+
+balanceIfNot(testTree);
 
 testTree.prettyPrint(); //passed
